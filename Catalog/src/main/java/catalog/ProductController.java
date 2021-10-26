@@ -1,4 +1,4 @@
-package shop;
+package catalog;
 
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;

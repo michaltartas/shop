@@ -1,21 +1,23 @@
-package shop;
-
+package stock;
 
 import lombok.Data;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import java.util.Date;
 
 @Data
 @Entity
-public class Product {
+class Order {
 
     private @Id
     @GeneratedValue long Id;
-    private String name;
-    private Float price;
-    private String description;
 
-    Product(){}
+    private int productId;
+    private String orderDate ;
+    private boolean active ;
+
+    Order(){}
+
 }

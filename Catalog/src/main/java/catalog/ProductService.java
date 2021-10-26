@@ -1,21 +1,19 @@
-package shop;
+package catalog;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
-@Service
+
 public class ProductService {
 
-    private final Productrepository repository;
+    private final CatalogRepository repository;
     private final ProductResourceAssembler assembler;
 
-    ProductService(Productrepository repository, ProductResourceAssembler assembler){
+    ProductService(CatalogRepository repository, ProductResourceAssembler assembler){
         this.repository = repository;
         this.assembler = assembler;
     }
