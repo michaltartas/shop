@@ -19,23 +19,23 @@ public class OrderService {
         this.assembler = assembler;
 
     }
-    EntityModel<Order> findById(long id) {
-        Order order = repository.findById(id)
+    EntityModel<ProductOrder> findById(long id) {
+        ProductOrder productOrder = repository.findById(id)
                 .orElseThrow( () -> new OrderNotFoundException(id));
 
-        return assembler.toModel(order);
+        return assembler.toModel(productOrder);
     }
 
-    CollectionModel<EntityModel<Order>> findAll() {
-        List<EntityModel<Order>> orders = repository.findAll().stream()
+    CollectionModel<EntityModel<ProductOrder>> findAll() {
+        List<EntityModel<ProductOrder>> orders = repository.findAll().stream()
                 .map(assembler::toModel).collect(Collectors.toList());
 
         return new CollectionModel<>(orders,
                 linkTo(methodOn(OrderService.class).findAll()).withSelfRel() );
     }
 
-    EntityModel<Order> saveOrder(Order newOrder){
-        EntityModel <Order> productEntity = assembler.toModel( repository.save(newOrder));
+    EntityModel<ProductOrder> saveOrder(ProductOrder newProductOrder){
+        EntityModel <ProductOrder> productEntity = assembler.toModel( repository.save(newProductOrder));
         return productEntity;
     }
 }

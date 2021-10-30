@@ -18,18 +18,18 @@ public class OrderController {
     }
 
     @GetMapping("/orders")
-    CollectionModel<EntityModel<Order>> all(){
+    CollectionModel<EntityModel<ProductOrder>> all(){
         return service.findAll();
     }
 
     @GetMapping("/orders/{id}")
-    EntityModel<Order> one(@PathVariable Long id)throws Exception{
+    EntityModel<ProductOrder> one(@PathVariable Long id)throws Exception{
         return service.findById(id);
     }
 
     @PostMapping("/orders")
-    ResponseEntity<?> newOrder (@RequestBody Order newOrder) throws URISyntaxException{
-        EntityModel<Order> order = service.saveOrder(newOrder);
+    ResponseEntity<?> newOrder (@RequestBody ProductOrder newProductOrder) throws URISyntaxException{
+        EntityModel<ProductOrder> order = service.saveOrder(newProductOrder);
         return ResponseEntity.created(order.getRequiredLink(IanaLinkRelations.SELF).toUri()).body(order);
     }
 }
