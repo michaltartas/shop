@@ -28,7 +28,7 @@ public class OrderController {
     }
 
     @PostMapping("/orders")
-    ResponseEntity<?> newProduct (@RequestBody Order newOrder) throws URISyntaxException{
+    ResponseEntity<?> newOrder (@RequestBody Order newOrder) throws URISyntaxException{
         EntityModel<Order> order = service.saveOrder(newOrder);
         return ResponseEntity.created(order.getRequiredLink(IanaLinkRelations.SELF).toUri()).body(order);
     }

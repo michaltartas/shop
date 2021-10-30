@@ -11,11 +11,11 @@ public class ApplicationConfiguration {
     OrderRepository repository;
 
     @Bean
-    OrderResourceAssembler assembler(){
+    public OrderResourceAssembler assembler(){
         return new OrderResourceAssembler();
     }
     @Bean
-    OrderService service(){
+    public OrderService service(){
         return new OrderService(repository, assembler());
     }
 }
