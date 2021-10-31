@@ -1,35 +1,39 @@
 package stock;
 
-import org.springframework.hateoas.CollectionModel;
-import org.springframework.hateoas.EntityModel;
-import org.springframework.hateoas.IanaLinkRelations;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URISyntaxException;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 public class OrderController {
 
     private final OrderService service;
+    private final ProductOrderConverter converter;
+    private final CatalogClient catalog;
 
-    OrderController(OrderService service){
+    OrderController(OrderService service,ProductOrderConverter converter, CatalogClient catalog){
         this.service = service;
+        this.converter = converter;
+        this.catalog = catalog;
     }
 
     @GetMapping("/orders")
-    CollectionModel<EntityModel<ProductOrder>> all(){
-        return service.findAll();
+    List<ProductOrderDto> all(){
+        List<ProductOrder> orders =  service.findAll();
+        return  orders.stream().map(o -> converter.from(o, catalog.findById(o.getProductId()))).collect(Collectors.toList());
     }
 
     @GetMapping("/orders/{id}")
-    EntityModel<ProductOrder> one(@PathVariable Long id)throws Exception{
-        return service.findById(id);
+    ProductOrderDto one(@PathVariable Long id)throws Exception{
+        ProductOrder order = service.findById(id);
+        return converter.from(order, catalog.findById(order.getProductId()));
     }
 
     @PostMapping("/orders")
-    ResponseEntity<?> newOrder (@RequestBody ProductOrder newProductOrder) throws URISyntaxException{
-        EntityModel<ProductOrder> order = service.saveOrder(newProductOrder);
-        return ResponseEntity.created(order.getRequiredLink(IanaLinkRelations.SELF).toUri()).body(order);
+    void newOrder (@RequestBody ProductOrder newProductOrder) throws URISyntaxException{
+        service.saveOrder(newProductOrder);
+
     }
 }
